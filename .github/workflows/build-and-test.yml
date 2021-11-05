@@ -16,5 +16,5 @@ jobs:
       - run: |
           npm run all
       - uses: ./
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
