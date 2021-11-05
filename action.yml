@@ -2,9 +2,10 @@ name: 'Team Label Action'
 description: "Add a team label based on the author's teams in the organization"
 author: 'EquityBee'
 inputs:
-  required: true
-  description: 'input description here'
-  default: 'default value if applicable'
+  milliseconds: # change this
+    required: false
+    description: 'input description here'
+    default: 'default value if applicable'
 runs:
   using: 'node12'
   main: 'dist/index.js'
