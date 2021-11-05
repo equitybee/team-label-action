@@ -6,10 +6,6 @@ async function run(): Promise<void> {
     const token = core.getInput('repo-token', { required: true });
     const octokit = getOctokit(token);
 
-    // const configPath = core.getInput('configuration-path', { required: true });
-
-    // get org -> provide id as input?
-
     // TODO: make this variable
     const org = 'equitybee';
     const { data: allTeams } = await octokit.rest.teams.list({
@@ -54,7 +50,13 @@ async function run(): Promise<void> {
       }
     }
 
-    core.info(`${author} is member of ${authorMembershipTeamSlugs}`);
+    await octokit.rest.issues.addLabels({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      // eslint-disable-next-line camelcase
+      issue_number: pullRequest.number,
+      labels: authorMembershipTeamSlugs,
+    });
   } catch (error) {
     if (error instanceof Error) {
       core.error(error);
