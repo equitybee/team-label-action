@@ -3,28 +3,37 @@ import { context, getOctokit } from '@actions/github';
 
 async function run(): Promise<void> {
   try {
-    // const token = core.getInput('repo-token', { required: true });
+    const token = core.getInput('repo-token', { required: true });
     // const configPath = core.getInput('configuration-path', { required: true });
-
-    const pullRequest = context.payload.pull_request;
-    console.log(pullRequest);
-    const author = pullRequest?.user.login;
-    console.log(author);
 
     // get org -> provide id as input?
     // if PR author is in the org
     // get teams for PR author
     // label PR with all team names for PR author
-
-    const myToken = core.getInput('myToken');
-
-    const octokit = getOctokit(myToken);
+    const octokit = getOctokit(token);
 
     const org = 'equitybee';
     const teamList = await octokit.rest.teams.list({
       org,
     });
     console.log(teamList);
+
+    const pullRequest = context.payload.pull_request;
+
+    if (!pullRequest) {
+      core.debug('Could not get pull request from context');
+
+      return;
+    }
+
+    const author = pullRequest?.user.login;
+
+    if (!author) {
+      core.debug('Could not get author from context');
+
+      return;
+    }
+
     // await octokit.rest.teams.getMembershipForUserInOrg();
   } catch (error) {
     if (error instanceof Error) {

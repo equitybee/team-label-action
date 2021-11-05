@@ -2,10 +2,9 @@ name: 'Team Label Action'
 description: "Add a team label based on the author's teams in the organization"
 author: 'EquityBee'
 inputs:
-  milliseconds: # change this
-    required: false
-    description: 'input description here'
-    default: 'default value if applicable'
+  repo-token:
+    required: true
+    description: 'The GITHUB_TOKEN secret'
 runs:
   using: 'node12'
   main: 'dist/index.js'
