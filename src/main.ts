@@ -4,13 +4,14 @@ import { context, getOctokit } from '@actions/github';
 async function run(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
+    const octokit = getOctokit(token);
+
     // const configPath = core.getInput('configuration-path', { required: true });
 
     // get org -> provide id as input?
     // if PR author is in the org
     // get teams for PR author
     // label PR with all team names for PR author
-    const octokit = getOctokit(token);
 
     // TODO: make this variable
     const org = 'equitybee';
@@ -35,7 +36,7 @@ async function run(): Promise<void> {
       return;
     }
 
-    console.log(author, teamSlugs[0]);
+    console.log(org, teamSlugs[0], author);
 
     const teams = await octokit.rest.teams.getMembershipForUserInOrg({
       org,
