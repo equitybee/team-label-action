@@ -7,6 +7,7 @@ on: # rebuild any PRs and main branch changes
       - 'releases/*'
 
 permissions:
+  actions: write
   contents: read
   pull-requests: write
 
@@ -21,4 +22,4 @@ jobs:
           npm run all
       - uses: ./
         with:
-          repo-token: ${{ github.token }}
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
