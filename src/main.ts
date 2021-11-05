@@ -38,13 +38,18 @@ async function run(): Promise<void> {
 
     console.log(org, teamSlugs[0], author);
 
-    const teams = await octokit.rest.teams.getMembershipForUserInOrg({
-      org,
-      // eslint-disable-next-line camelcase
-      team_slug: teamSlugs[0],
-      username: author,
-    });
-    console.log(teams);
+    try {
+      const teams = await octokit.rest.teams.getMembershipForUserInOrg({
+        org,
+        // eslint-disable-next-line camelcase
+        team_slug: teamSlugs[0],
+        username: author,
+      });
+      console.log(teams);
+    } catch (error) {
+      console.error('oh no this failed');
+      console.log(error);
+    }
   } catch (error) {
     if (error instanceof Error) {
       core.error(error);
