@@ -17,4 +17,5 @@ jobs:
           npm run all
       - uses: ./
         with:
+          organization_name: equitybee
           repo-token: '${{ secrets.PAT }}'
