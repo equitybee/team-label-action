@@ -5,7 +5,7 @@ import { getTeamSlugsForAuthor } from './octokit-queries';
 
 const run = async (): Promise<void> => {
   try {
-    const org = core.getInput('organization_name', { required: true });
+    const org = core.getInput('organization-name', { required: true });
 
     // Get author, PR number from context
     const pullRequest = context.payload.pull_request;
