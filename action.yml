@@ -1,5 +1,5 @@
 name: 'Team Label Action'
-description: 'Add a team label based on the author's teams in the organization'
+description: "Add a team label based on the author's teams in the organization"
 author: 'EquityBee'
 inputs:
   required: true
