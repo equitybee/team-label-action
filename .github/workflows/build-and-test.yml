@@ -1,15 +1,10 @@
 name: 'build-test'
-on: # rebuild any PRs and main branch changes
+on:
   pull_request:
   push:
     branches:
       - main
       - 'releases/*'
-
-permissions:
-  actions: write
-  contents: write
-  pull-requests: write
 
 jobs:
   build-and-test:
@@ -22,4 +17,5 @@ jobs:
           npm run all
       - uses: ./
         with:
-          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          organization-name: equitybee
+          repo-token: '${{ secrets.PAT }}'

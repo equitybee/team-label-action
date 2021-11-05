@@ -1,23 +1,13 @@
 import * as core from '@actions/core';
+
 import { context, getOctokit } from '@actions/github';
+import { getTeamSlugsForAuthor } from './octokit-queries';
 
-async function run(): Promise<void> {
+const run = async (): Promise<void> => {
   try {
-    const token = core.getInput('repo-token', { required: true });
-    // const configPath = core.getInput('configuration-path', { required: true });
+    const org = core.getInput('organization-name', { required: true });
 
-    // get org -> provide id as input?
-    // if PR author is in the org
-    // get teams for PR author
-    // label PR with all team names for PR author
-    const octokit = getOctokit(token);
-
-    const org = 'equitybee';
-    const teamList = await octokit.rest.teams.list({
-      org,
-    });
-    console.log(teamList);
-
+    // Get author, PR number from context
     const pullRequest = context.payload.pull_request;
 
     if (!pullRequest) {
@@ -34,13 +24,31 @@ async function run(): Promise<void> {
       return;
     }
 
-    // await octokit.rest.teams.getMembershipForUserInOrg();
+    const token = core.getInput('repo-token', { required: true });
+    const octokit = getOctokit(token);
+
+    // Get all teams in the organization where the PR author is a member
+    const authorsTeamSlugs = await getTeamSlugsForAuthor(octokit, org, author);
+
+    if (authorsTeamSlugs.length < 1) {
+      core.info(`${author} does not belong to any teams`);
+
+      return;
+    }
+
+    // Label the PR with team names
+    await octokit.rest.issues.addLabels({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      issue_number: pullRequest.number,
+      labels: authorsTeamSlugs,
+    });
   } catch (error) {
     if (error instanceof Error) {
       core.error(error);
       core.setFailed(error.message);
     }
   }
-}
+};
 
 run();
