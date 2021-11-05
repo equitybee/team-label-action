@@ -12,11 +12,12 @@ async function run(): Promise<void> {
     // label PR with all team names for PR author
     const octokit = getOctokit(token);
 
+    // TODO: make this variable
     const org = 'equitybee';
-    const teamList = await octokit.rest.teams.list({
+    const { data: allTeams } = await octokit.rest.teams.list({
       org,
     });
-    console.log(teamList);
+    const teamSlugs = allTeams.map((team) => team.slug);
 
     const pullRequest = context.payload.pull_request;
 
@@ -34,7 +35,15 @@ async function run(): Promise<void> {
       return;
     }
 
-    // await octokit.rest.teams.getMembershipForUserInOrg();
+    console.log(author, teamSlugs[0]);
+
+    const teams = await octokit.rest.teams.getMembershipForUserInOrg({
+      org,
+      // eslint-disable-next-line camelcase
+      team_slug: teamSlugs[0],
+      username: author,
+    });
+    console.log(teams);
   } catch (error) {
     if (error instanceof Error) {
       core.error(error);
