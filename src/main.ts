@@ -9,9 +9,6 @@ async function run(): Promise<void> {
     // const configPath = core.getInput('configuration-path', { required: true });
 
     // get org -> provide id as input?
-    // if PR author is in the org
-    // get teams for PR author
-    // label PR with all team names for PR author
 
     // TODO: make this variable
     const org = 'equitybee';
@@ -36,20 +33,28 @@ async function run(): Promise<void> {
       return;
     }
 
-    console.log(org, teamSlugs[0], author);
+    const authorMembershipTeamSlugs = [];
 
-    try {
-      const teams = await octokit.rest.teams.getMembershipForUserInOrg({
-        org,
-        // eslint-disable-next-line camelcase
-        team_slug: 'employee-squad',
-        username: author,
-      });
-      console.log(teams);
-    } catch (error) {
-      console.error('oh no this failed');
-      console.log(error);
+    for await (const teamSlug of teamSlugs) {
+      try {
+        const { data: membership } = await octokit.rest.teams.getMembershipForUserInOrg({
+          org,
+          // eslint-disable-next-line camelcase
+          team_slug: teamSlug,
+          username: author,
+        });
+
+        if (membership.state === 'active') {
+          authorMembershipTeamSlugs.push(teamSlug);
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(`${author} not a member of ${teamSlug}`);
+        continue;
+      }
     }
+
+    core.info(`${author} is member of ${authorMembershipTeamSlugs}`);
   } catch (error) {
     if (error instanceof Error) {
       core.error(error);
