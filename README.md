@@ -40,7 +40,11 @@ Make sure to add the relevant inputs:
 - `repo-token` is your `${{ secrets.GITHUB_TOKEN }}`. You may encounter an error where this token does not have the necessary permissions to access an organization or teams. At EquityBee, we use PATs (Personal Access Token) instead. [Github instructions on how to create a PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 - `organization` is the name/slug of your Github organization (it comes right after `https://github.com/`)
 
+## Internal use
+
+You may wonder why [Husky](https://typicode.github.io/husky/#/) is running a pre-commit script. As this action is private (not a published, publicly accessible Github action), we are copying its contents directly in our monorepo. Husky makes sure the `dist/` directory always contains the latest, built action. Once the action is public, this will be unnecessary.
+
 ## Next steps
 
 - [ ] add tests
-- [ ] this repo is a great candidate for open-sourcing!
+- [ ] this repo is a great candidate for open-sourcing! Please address the pre-commit hook mentioned in 'Internal Use' above.
