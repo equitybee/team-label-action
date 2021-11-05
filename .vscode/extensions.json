@@ -3,6 +3,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "streetsidesoftware.code-spell-checker",
-    "wayou.vscode-todo-highlight"
+    "wayou.vscode-todo-highlight",
+    "redhat.vscode-yaml"
   ]
 }
