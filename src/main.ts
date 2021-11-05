@@ -42,7 +42,7 @@ async function run(): Promise<void> {
       const teams = await octokit.rest.teams.getMembershipForUserInOrg({
         org,
         // eslint-disable-next-line camelcase
-        team_slug: teamSlugs[0],
+        team_slug: 'employee-squad',
         username: author,
       });
       console.log(teams);
