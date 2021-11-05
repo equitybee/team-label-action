@@ -1,18 +1,13 @@
 import * as core from '@actions/core';
+
 import { context, getOctokit } from '@actions/github';
+import { getTeamSlugsForAuthor } from './octokit-queries';
 
-async function run(): Promise<void> {
+const run = async (): Promise<void> => {
   try {
-    const token = core.getInput('repo-token', { required: true });
-    const octokit = getOctokit(token);
+    const org = core.getInput('organization_name', { required: true });
 
-    // TODO: make this variable
-    const org = 'equitybee';
-    const { data: allTeams } = await octokit.rest.teams.list({
-      org,
-    });
-    const teamSlugs = allTeams.map((team) => team.slug);
-
+    // Get author, PR number from context
     const pullRequest = context.payload.pull_request;
 
     if (!pullRequest) {
@@ -29,33 +24,24 @@ async function run(): Promise<void> {
       return;
     }
 
-    const authorMembershipTeamSlugs = [];
+    const token = core.getInput('repo-token', { required: true });
+    const octokit = getOctokit(token);
 
-    for await (const teamSlug of teamSlugs) {
-      try {
-        const { data: membership } = await octokit.rest.teams.getMembershipForUserInOrg({
-          org,
-          // eslint-disable-next-line camelcase
-          team_slug: teamSlug,
-          username: author,
-        });
+    // Get all teams in the organization where the PR author is a member
+    const authorsTeamSlugs = await getTeamSlugsForAuthor(octokit, org, author);
 
-        if (membership.state === 'active') {
-          authorMembershipTeamSlugs.push(teamSlug);
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(`${author} not a member of ${teamSlug}`);
-        continue;
-      }
+    if (authorsTeamSlugs.length < 1) {
+      core.info(`${author} does not belong to any teams`);
+
+      return;
     }
 
+    // Label the PR with team names
     await octokit.rest.issues.addLabels({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      // eslint-disable-next-line camelcase
       issue_number: pullRequest.number,
-      labels: authorMembershipTeamSlugs,
+      labels: authorsTeamSlugs,
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -63,6 +49,6 @@ async function run(): Promise<void> {
       core.setFailed(error.message);
     }
   }
-}
+};
 
 run();
