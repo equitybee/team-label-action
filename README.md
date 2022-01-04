@@ -42,3 +42,7 @@ You may wonder why [Husky](https://typicode.github.io/husky/#/) is running a pre
 ## Next steps
 
 - [ ] add tests
+
+## License
+
+Apache-2 © EquityBee
