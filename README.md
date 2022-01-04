@@ -37,7 +37,7 @@ jobs:
 
 Make sure to add the relevant inputs:
 
-- `repo-token` is your `${{ secrets.GITHUB_TOKEN }}`. You may encounter an error where this token does not have the necessary permissions to access an organization or teams. At EquityBee, we use PATs (Personal Access Token) instead. [Github instructions on how to create a PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+- `repo-token` is your `${{ secrets.GITHUB_TOKEN }}`. You may encounter an error where this token does not have the necessary permissions to access an organization or teams. At EquityBee, we use PATs (Personal Access Token) instead. Create a [personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with the repo or public_repo scopes enabled, and add the token as an [encrypted secret](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) for the repository or organization
 - `organization` is the name/slug of your Github organization (it comes right after `https://github.com/`)
 
 ## Internal use
@@ -47,4 +47,3 @@ You may wonder why [Husky](https://typicode.github.io/husky/#/) is running a pre
 ## Next steps
 
 - [ ] add tests
-- [ ] this repo is a great candidate for open-sourcing! Please address the pre-commit hook mentioned in 'Internal Use' above.
