@@ -24,25 +24,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: equitybee/team-label-action@main
         with:
-          repository: EquityBee/team-label-action
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: .github/actions/team-label-action
-          ref: main
-      - uses: ./.github/actions/team-label-action
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          organization-name: equitybee
+          repo-token: ${{ secrets.TOKEN }}
+          organization-name: YOUR_ORGANIZATION_NAME
 ```
 
 Make sure to add the relevant inputs:
 
 - `repo-token` is your `${{ secrets.GITHUB_TOKEN }}`. You may encounter an error where this token does not have the necessary permissions to access an organization or teams. At EquityBee, we use PATs (Personal Access Token) instead. Create a [personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with the repo or public_repo scopes enabled, and add the token as an [encrypted secret](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) for the repository or organization
-- `organization` is the name/slug of your Github organization (it comes right after `https://github.com/`)
+- `organization-name` is the name/slug of your Github organization (it comes right after `https://github.com/`)
 
 ## Internal use
 
-You may wonder why [Husky](https://typicode.github.io/husky/#/) is running a pre-commit script. As this action is private (not a published, publicly accessible Github action), we are copying its contents directly in our monorepo. Husky makes sure the `dist/` directory always contains the latest, built action. Once the action is public, this will be unnecessary.
+You may wonder why [Husky](https://typicode.github.io/husky/#/) is running a pre-commit script: we are copying its contents directly in our monorepo. Husky makes sure the `dist/` directory always contains the latest, built action.
 
 ## Next steps
 
