@@ -1,6 +1,9 @@
 name: 'Team Label Action'
 description: "Add a team label based on the author's teams in the organization"
 author: 'EquityBee'
+branding:
+  icon: 'tag'
+  color: 'green'
 inputs:
   repo-token:
     required: true
