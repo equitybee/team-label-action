@@ -8,7 +8,6 @@ inputs:
   repo-token:
     required: true
     description: 'The GITHUB_TOKEN secret'
-inputs:
   organization-name:
     required: true
     description: 'Tis the name/slug of your Github organization (it comes right after https://github.com/)'
