@@ -34,6 +34,7 @@ Make sure to add the relevant inputs:
 
 - `repo-token` is your `${{ secrets.GITHUB_TOKEN }}`. You may encounter an error where this token does not have the necessary permissions to access an organization or teams. At EquityBee, we use PATs (Personal Access Token) instead. Create a [personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with the repo or public_repo scopes enabled, and add the token as an [encrypted secret](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) for the repository or organization
 - `organization-name` is the name/slug of your Github organization (it comes right after `https://github.com/`)
+- `ignore-labels` is an optional, comma-separated list of labels to ignore
 
 ## Internal use
 

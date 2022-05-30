@@ -11,6 +11,9 @@ inputs:
   organization-name:
     required: true
     description: 'Tis the name/slug of your Github organization (it comes right after https://github.com/)'
+  ignore-labels:
+    required: false
+    description: 'Optional comma-separated list of labels to ignore'
 runs:
   using: 'node12'
   main: 'dist/index.js'

@@ -5,7 +5,7 @@
   "parserOptions": {
     "ecmaVersion": 9,
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.eslint.json"
   },
   "rules": {
     "i18n-text/no-en": "off",
@@ -107,5 +107,14 @@
     "node": true,
     "es6": true,
     "jest/globals": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(test).[jt]s?(x)"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "filenames/match-regex": ["error", "^[a-z0-9-]+\\.test$"]
+      }
+    }
+  ]
 }
