@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package"
+    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.7.23",
+    "@types/jest": "^27.5.1",
     "@typescript-eslint/parser": "^5.19.0",
     "@vercel/ncc": "^0.33.4",
     "eslint": "^7.32.0",
