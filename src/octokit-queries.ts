@@ -1,6 +1,5 @@
 import * as core from '@actions/core';
 import { GitHub } from '@actions/github/lib/utils';
-import { isString } from './functions';
 
 export const getTeamSlugsForAuthor = async (
   octokit: InstanceType<typeof GitHub>,
@@ -12,9 +11,11 @@ export const getTeamSlugsForAuthor = async (
     org,
   });
 
-  const authorsTeamSlugs = allTeams.map<Promise<string | undefined>>(async ({ slug }) => {
+  const authorsTeamSlugs: string[] = [];
+
+  for await (const { slug } of allTeams) {
     if (ignoreSlugs.includes(slug)) {
-      return;
+      continue;
     }
 
     try {
@@ -25,13 +26,13 @@ export const getTeamSlugsForAuthor = async (
       });
 
       if (membership.state === 'active') {
-        return slug;
+        authorsTeamSlugs.push(slug);
       }
     } catch (error) {
       // Octokit query fails when username is not member of a team, see https://octokit.github.io/rest.js/v18
       core.info(`${username} not a member of ${slug}`);
     }
-  });
+  }
 
-  return (await Promise.all(authorsTeamSlugs)).filter(isString);
+  return authorsTeamSlugs;
 };
