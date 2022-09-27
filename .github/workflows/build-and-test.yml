@@ -18,4 +18,4 @@ jobs:
       - uses: ./
         with:
           organization-name: equitybee
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.PAT }}
