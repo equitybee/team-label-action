@@ -14,6 +14,10 @@ inputs:
   ignore-labels:
     required: false
     description: 'Optional comma-separated list of labels to ignore'
+  prefix:
+    required: false
+    description: 'Optional prefix that will be added to all team labels'
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

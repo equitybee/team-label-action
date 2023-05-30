@@ -84,12 +84,13 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             core.info(`${author} does not belong to any teams`);
             return;
         }
+        const prefix = core.getInput('prefix', { trimWhitespace: false }) || '';
         // Label the PR with team names
         yield octokit.rest.issues.addLabels({
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
             issue_number: pullRequest.number,
-            labels: authorsTeamSlugs,
+            labels: authorsTeamSlugs.map((slug) => prefix + slug),
         });
     }
     catch (error) {
