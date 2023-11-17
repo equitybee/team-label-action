@@ -7,18 +7,19 @@ describe('getTeamSlugsForAuthor', () => {
 
   beforeEach(() => {
     octokit = {
+      paginate: jest.fn(async (fetcher, options) => {
+        return fetcher(options);
+      }),
       rest: {
         teams: {
-          list: jest.fn(async () =>
-            Promise.resolve({
-              data: [
-                { slug: 'team-active' },
-                { slug: 'team-pending' },
-                { slug: 'team-not-a-member' },
-                { slug: 'team-active-ignored' },
-              ],
-            }),
-          ),
+          list: jest.fn(async () => {
+            return Promise.resolve([
+              { slug: 'team-active' },
+              { slug: 'team-pending' },
+              { slug: 'team-not-a-member' },
+              { slug: 'team-active-ignored' },
+            ]);
+          }),
           getMembershipForUserInOrg: jest.fn(async ({ team_slug }) => {
             if (team_slug.startsWith('team-active')) {
               return {
