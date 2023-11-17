@@ -7,13 +7,14 @@ export const getTeamSlugsForAuthor = async (
   username: string,
   ignoreSlugs: string[] = [],
 ): Promise<string[]> => {
-  const { data: allTeams } = await octokit.rest.teams.list({
+  const allTeams = await octokit.paginate(octokit.rest.teams.list, {
     org,
+    per_page: 100,
   });
 
   const authorsTeamSlugs: string[] = [];
 
-  for await (const { slug } of allTeams) {
+  for (const { slug } of allTeams) {
     if (ignoreSlugs.includes(slug)) {
       continue;
     }
