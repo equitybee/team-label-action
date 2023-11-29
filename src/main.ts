@@ -37,12 +37,14 @@ const run = async (): Promise<void> => {
       return;
     }
 
+    const prefix = core.getInput('prefix', { trimWhitespace: false }) || '';
+
     // Label the PR with team names
     await octokit.rest.issues.addLabels({
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: pullRequest.number,
-      labels: authorsTeamSlugs,
+      labels: authorsTeamSlugs.map((slug) => prefix + slug),
     });
   } catch (error) {
     if (error instanceof Error) {
