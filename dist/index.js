@@ -155,7 +155,8 @@ const core = __importStar(__nccwpck_require__(2186));
 const getTeamSlugsForAuthor = (octokit, org, username, ignoreSlugs = []) => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const { data: allTeams } = yield octokit.rest.teams.list({
-        org,
+        org: org,
+        per_page: 100,
     });
     const authorsTeamSlugs = [];
     try {

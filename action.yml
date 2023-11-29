@@ -1,23 +1,23 @@
-name: 'Team Label Action'
+name: "Team Label Action"
 description: "Add a team label based on the author's teams in the organization"
-author: 'EquityBee'
+author: "EquityBee"
 branding:
-  icon: 'tag'
-  color: 'green'
+  icon: "tag"
+  color: "green"
 inputs:
   repo-token:
     required: true
-    description: 'The GITHUB_TOKEN secret'
+    description: "The GITHUB_TOKEN secret"
   organization-name:
     required: true
-    description: 'Tis the name/slug of your Github organization (it comes right after https://github.com/)'
+    description: "Tis the name/slug of your Github organization (it comes right after https://github.com/)"
   ignore-labels:
     required: false
-    description: 'Optional comma-separated list of labels to ignore'
+    description: "Optional comma-separated list of labels to ignore"
   prefix:
     required: false
-    description: 'Optional prefix that will be added to all team labels'
+    description: "Optional prefix that will be added to all team labels"
 
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node20"
+  main: "dist/index.js"

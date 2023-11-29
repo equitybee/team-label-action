@@ -9,7 +9,7 @@ export const getTeamSlugsForAuthor = async (
 ): Promise<string[]> => {
   const { data: allTeams } = await octokit.rest.teams.list({
     org: org,
-    per_page: 100
+    per_page: 100,
   });
 
   const authorsTeamSlugs: string[] = [];
